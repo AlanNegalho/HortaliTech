@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously, dead_code
+
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -21,7 +23,7 @@ class _TemperSoloState extends State<TemperSolo> {
   }
 
   void startTimer() {
-    Timer.periodic(const Duration(seconds: 2), (timer) {
+    Timer.periodic(const Duration(seconds: 10), (timer) {
       fetchData();
     });
   }
@@ -49,6 +51,8 @@ class _TemperSoloState extends State<TemperSolo> {
 
   @override
   Widget build(BuildContext context) {
+    bool click = false;
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xFF09CD27),
@@ -67,35 +71,141 @@ class _TemperSoloState extends State<TemperSolo> {
                 valueColor: AlwaysStoppedAnimation<Color>(Colors.deepOrange),
               ),
             )
-          : InkWell(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ListSoloTemp(horta: horta),
-                  ),
-                );
-              },
-              child: Row(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(10),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+          : Column(
+              children: [
+                Container(
+                  height: 250,
+                  padding: const EdgeInsets.only(top: 8),
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ListSoloTemp(horta: horta),
+                        ),
+                      );
+                    },
+                    child: Row(
                       children: [
-                        const Divider(),
-                        Text(
-                          "Umidade: ${horta.first['umidade']}",
-                          style: const TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.bold),
+                        Container(
+                          padding: const EdgeInsets.all(10),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Divider(),
+                              Text(
+                                "Umidade: ${horta.first['umidade']}",
+                                style: const TextStyle(
+                                    fontSize: 15, fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),
                   ),
-                ],
-              ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 10),
+                      child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            minimumSize: const Size(55, 38),
+                          ),
+                          onPressed: click
+                              ? () {}
+                              : () async {
+                                  setState(() {
+                                    click = true;
+                                  });
+                                  bool result = await setEstadoBomba(true);
+                                  setState(() {
+                                    click = false;
+                                  });
+                                  if (result) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text("Bomba Ligada"),
+                                        backgroundColor: Colors.green,
+                                      ),
+                                    );
+                                  } else {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text("Erro ao ligar a bomba"),
+                                        backgroundColor: Colors.red,
+                                      ),
+                                    );
+                                  }
+                                },
+                          child: const Text("Ligar Bomba")),
+                    ),
+                    ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          minimumSize: const Size(55, 38),
+                        ),
+                        onPressed: click
+                            ? () {}
+                            : () async {
+                                setState(() {
+                                  click = false;
+                                });
+                                bool result = await setEstadoBomba(false);
+                                setState(() {
+                                  click = false;
+                                });
+                                if (result) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text("Bomba Desligada"),
+                                      backgroundColor: Colors.green,
+                                    ),
+                                  );
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text("Erro ao desligar a bomba"),
+                                      backgroundColor: Colors.red,
+                                    ),
+                                  );
+                                }
+                              },
+                        child: const Text("Desligar Bomba"))
+                  ],
+                )
+              ],
             ),
     );
+  }
+
+  Future<bool> setEstadoBomba(bool value) async {
+    String urlGet = "http://10.0.0.9:8000/bomba/1/";
+    int id = 0;
+
+    try {
+      var responseGet = await http.get(Uri.parse(urlGet));
+
+      if (responseGet.statusCode == 200) {
+        final data = json.decode(responseGet.body);
+        id = data['id'];
+      }
+
+      if (id == 1) {
+        String url = "http://10.0.0.9:8000/bomba/${id.toString()}/";
+        var response =
+            await http.put(Uri.parse(url), body: {"estado": value.toString()});
+        if (response.statusCode == 200) {
+          return true;
+        } else {
+          return false;
+        }
+      }
+      return false;
+    } catch (e) {
+      return false;
+    }
   }
 }
 
