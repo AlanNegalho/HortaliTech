@@ -32,7 +32,7 @@ class _TemperSoloState extends State<TemperSolo> {
     });
 
     final response =
-        await http.get(Uri.parse("http://10.8.30.139:8000/UmidadeSolo/"));
+        await http.get(Uri.parse("http://10.0.0.9:8000/umidadesolo/"));
 
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
@@ -51,7 +51,7 @@ class _TemperSoloState extends State<TemperSolo> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.deepOrange,
+        backgroundColor: const Color(0xFF09CD27),
         title: const Column(
           children: [
             Row(
@@ -67,29 +67,83 @@ class _TemperSoloState extends State<TemperSolo> {
                 valueColor: AlwaysStoppedAnimation<Color>(Colors.deepOrange),
               ),
             )
-          : ListView.builder(
-              itemCount: horta.length,
-              itemBuilder: (context, index) {
-                final hortas = horta[index];
-                return Row(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(10),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Humidade: ${hortas['Umidade']}",
-                            style: const TextStyle(
-                                fontSize: 15, fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
+          : InkWell(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ListSoloTemp(horta: horta),
+                  ),
                 );
               },
+              child: Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Divider(),
+                        Text(
+                          "Umidade: ${horta.first['umidade']}",
+                          style: const TextStyle(
+                              fontSize: 15, fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
+    );
+  }
+}
+
+class ListSoloTemp extends StatelessWidget {
+  const ListSoloTemp({
+    super.key,
+    required this.horta,
+  });
+
+  final List<Map<String, dynamic>> horta;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.deepOrange,
+        title: const Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [Text("Umidade do Solo"), Text("       ")],
+            ),
+          ],
+        ),
+      ),
+      body: ListView.builder(
+        itemCount: horta.length,
+        itemBuilder: (context, index) {
+          final hortas = horta[index];
+          return Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Humidade: ${hortas['umidade']}",
+                      style: const TextStyle(
+                          fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          );
+        },
+      ),
     );
   }
 }

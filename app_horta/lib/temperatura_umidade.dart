@@ -32,7 +32,7 @@ class _TempHumidadeState extends State<TempHumidade> {
     });
 
     final response =
-        await http.get(Uri.parse("http://10.8.30.139:8000/dadoshorta/"));
+        await http.get(Uri.parse("http://10.0.0.9:8000/dadoshorta/"));
 
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
@@ -51,6 +51,7 @@ class _TempHumidadeState extends State<TempHumidade> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: const Color(0xFF09CD27),
         title: const Column(
           children: [
             Row(
@@ -70,35 +71,86 @@ class _TempHumidadeState extends State<TempHumidade> {
                 valueColor: AlwaysStoppedAnimation<Color>(Colors.deepOrange),
               ),
             )
-          : ListView.builder(
-              itemCount: horta.length,
-              itemBuilder: (context, index) {
-                final hortas = horta[index];
-                return Row(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(10),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Divider(),
-                          Text(
-                            "Temperatura: ${hortas['temperatura']}",
-                            style: const TextStyle(
-                                fontSize: 15, fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            "Humidade: ${hortas['humidade']}",
-                            style: const TextStyle(
-                                fontSize: 15, fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
+          : InkWell(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ListTemp(horta: horta),
+                  ),
                 );
               },
+              child: Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Divider(),
+                        Text(
+                          "Temperatura: ${horta.first['temperatura']}",
+                          style: const TextStyle(
+                              fontSize: 15, fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          "Humidade: ${horta.first['humidade']}",
+                          style: const TextStyle(
+                              fontSize: 15, fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
+    );
+  }
+}
+
+class ListTemp extends StatelessWidget {
+  const ListTemp({
+    super.key,
+    required this.horta,
+  });
+
+  final List<Map<String, dynamic>> horta;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Temperatura e Umidade"),
+      ),
+      body: ListView.builder(
+        itemCount: horta.length,
+        itemBuilder: (context, index) {
+          final hortas = horta[index];
+          return Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Divider(),
+                    Text(
+                      "Temperatura: ${hortas['temperatura']}",
+                      style: const TextStyle(
+                          fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      "Humidade: ${hortas['humidade']}",
+                      style: const TextStyle(
+                          fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          );
+        },
+      ),
     );
   }
 }
