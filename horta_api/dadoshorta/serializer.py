@@ -2,9 +2,10 @@ from rest_framework import serializers
 from dadoshorta.models import DadhosHorta , UmidadeSolo, Bomba
 
 class DadosHortaSerializer(serializers.ModelSerializer):
+    data = serializers.DateTimeField(format="%d/%m/%Y %H:%M:%S", required=False)
     class Meta:
         model = DadhosHorta
-        fields = '__all__'
+        fields = ['temperatura', 'umidade', 'data']
 
 class UmidadeSoloSerializer(serializers.ModelSerializer):
     class Meta:

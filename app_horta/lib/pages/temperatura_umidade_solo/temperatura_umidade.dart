@@ -1,7 +1,12 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 import 'dart:convert';
+import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'package:fl_chart/fl_chart.dart';
+
+import 'detalhes_temp_umidade.dart';
 
 class TempHumidade extends StatefulWidget {
   const TempHumidade({super.key});
@@ -21,7 +26,7 @@ class _TempHumidadeState extends State<TempHumidade> {
   }
 
   void startTimer() {
-    Timer.periodic(const Duration(seconds: 2), (timer) {
+    Timer.periodic(const Duration(seconds: 10), (timer) {
       fetchData();
     });
   }
@@ -32,7 +37,7 @@ class _TempHumidadeState extends State<TempHumidade> {
     });
 
     final response =
-        await http.get(Uri.parse("http://10.0.0.9:8000/dadoshorta/"));
+        await http.get(Uri.parse("http://10.8.30.147:8000/dadoshorta/"));
 
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
@@ -59,7 +64,7 @@ class _TempHumidadeState extends State<TempHumidade> {
               children: [
                 Text(
                   "Temperatura e Umidade",
-                )
+                ),
               ],
             ),
           ],
@@ -80,80 +85,87 @@ class _TempHumidadeState extends State<TempHumidade> {
                   ),
                 );
               },
-              child: Row(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(10),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+              child: Container(
+                height: 300,
+                padding: const EdgeInsets.only(top: 15.0),
+                child: Column(
+                  children: [
+                    //const Divider(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        const Divider(),
-                        Text(
-                          "Temperatura: ${horta.first['temperatura']}",
-                          style: const TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.bold),
+                        CircularPercentIndicator(
+                          radius: 100.0,
+                          lineWidth: 12.0,
+                          animation: true,
+                          percent:
+                              double.parse(horta.first['temperatura']) / 100,
+                          center: Text(
+                            "${horta.first['temperatura']}ºC",
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 20.0),
+                          ),
+                          footer: const Text(
+                            "Temperatura",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 15.0),
+                          ),
+                          circularStrokeCap: CircularStrokeCap.round,
+                          progressColor: Colors.deepOrange,
                         ),
-                        Text(
-                          "Humidade: ${horta.first['humidade']}",
-                          style: const TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.bold),
+                        const Icon(
+                          Icons.thermostat_outlined,
+                          size: 90,
+                          color: Colors.deepOrange,
                         ),
                       ],
                     ),
-                  ),
-                ],
+                    const SizedBox(
+                      height: 25,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        CircularPercentIndicator(
+                          radius: 100.0,
+                          lineWidth: 12.0,
+                          animation: true,
+                          percent: double.parse(horta.first['umidade']) / 100,
+                          center: Text(
+                            "${horta.first['umidade']}ºC",
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 20.0),
+                          ),
+                          footer: const Text(
+                            "Umidade",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 15.0),
+                          ),
+                          circularStrokeCap: CircularStrokeCap.round,
+                          progressColor: const Color(0xFF22D6FF),
+                        ),
+                        const Icon(
+                          Icons.water_drop_outlined,
+                          color: Color(0xFF22D6FF),
+                          size: 90,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
     );
   }
 }
 
-class ListTemp extends StatelessWidget {
-  const ListTemp({
-    super.key,
-    required this.horta,
-  });
 
-  final List<Map<String, dynamic>> horta;
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Temperatura e Umidade"),
-      ),
-      body: ListView.builder(
-        itemCount: horta.length,
-        itemBuilder: (context, index) {
-          final hortas = horta[index];
-          return Row(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Divider(),
-                    Text(
-                      "Temperatura: ${hortas['temperatura']}",
-                      style: const TextStyle(
-                          fontSize: 15, fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      "Humidade: ${hortas['humidade']}",
-                      style: const TextStyle(
-                          fontSize: 15, fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          );
-        },
-      ),
-    );
-  }
-}
+// segue abaixo um codigo para o usuario poder escolher o periodo de tempo que ele quer ver os dados da temperatura e umidade
+
+
+
+// segue abaixo um codigo para exibir os dados da temperatura e umidade em formato de grafico de linha ultilizando a biblioteca charts_flutter
 
 // import 'dart:async';
 

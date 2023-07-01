@@ -13,19 +13,20 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       //backgroundColor: Colors.cyan[100],
       appBar: AppBar(
-          backgroundColor: const Color(0xFF09CD27),
-          title: const Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text("App horta"),
-                  Text("         "),
-                ],
-              ),
-            ],
-          )),
+        backgroundColor: const Color(0xFF09CD27),
+        title: const Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text("App horta"),
+                Text("         "),
+              ],
+            ),
+          ],
+        ),
+      ),
       drawer: Drawer(
         //backgroundColor: Colors.grey[200],
         child: ListView(
@@ -85,6 +86,16 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   ElevatedButton(
                       onPressed: () {
+                        Navigator.pushNamed(context, '/temperatura_umidade');
+                      },
+                      style: ButtonStyle(
+                          side: MaterialStateProperty.all<BorderSide>(
+                              const BorderSide(
+                                  color: Color.fromARGB(255, 8, 6, 6),
+                                  width: 2.0))),
+                      child: const Text("Temperatura e Umidade")),
+                  ElevatedButton(
+                      onPressed: () {
                         Navigator.pushNamed(context, '/temperatura_solo');
                       },
                       style: ButtonStyle(
@@ -100,16 +111,6 @@ class _HomePageState extends State<HomePage> {
                       child: const Text(
                         "Temperatura do Solo",
                       )),
-                  ElevatedButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/temperatura_umidade');
-                      },
-                      style: ButtonStyle(
-                          side: MaterialStateProperty.all<BorderSide>(
-                              const BorderSide(
-                                  color: Color.fromARGB(255, 8, 6, 6),
-                                  width: 2.0))),
-                      child: const Text("Temperatura e Umidade")),
                 ],
               ),
             ],

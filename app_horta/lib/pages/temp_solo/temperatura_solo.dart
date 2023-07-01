@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'detalhes_solo_temp.dart';
+
 class TemperSolo extends StatefulWidget {
   const TemperSolo({super.key});
 
@@ -34,7 +36,7 @@ class _TemperSoloState extends State<TemperSolo> {
     });
 
     final response =
-        await http.get(Uri.parse("http://10.0.0.9:8000/umidadesolo/"));
+        await http.get(Uri.parse("http://10.8.30.147:8000/umidadesolo/"));
 
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
@@ -111,8 +113,12 @@ class _TemperSoloState extends State<TemperSolo> {
                     Padding(
                       padding: const EdgeInsets.only(right: 10),
                       child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            minimumSize: const Size(55, 38),
+                          style: ButtonStyle(
+                            minimumSize:
+                                MaterialStateProperty.all(const Size(140, 38)),
+                            side: MaterialStateProperty.all(
+                              const BorderSide(color: Colors.black),
+                            ),
                           ),
                           onPressed: click
                               ? () {}
@@ -143,8 +149,12 @@ class _TemperSoloState extends State<TemperSolo> {
                           child: const Text("Ligar Bomba")),
                     ),
                     ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          minimumSize: const Size(55, 38),
+                        style: ButtonStyle(
+                          minimumSize:
+                              MaterialStateProperty.all(const Size(140, 38)),
+                          side: MaterialStateProperty.all(
+                            const BorderSide(color: Colors.black),
+                          ),
                         ),
                         onPressed: click
                             ? () {}
@@ -172,7 +182,9 @@ class _TemperSoloState extends State<TemperSolo> {
                                   );
                                 }
                               },
-                        child: const Text("Desligar Bomba"))
+                        child: const Text(
+                          "Desligar Bomba",
+                        ))
                   ],
                 )
               ],
@@ -181,7 +193,7 @@ class _TemperSoloState extends State<TemperSolo> {
   }
 
   Future<bool> setEstadoBomba(bool value) async {
-    String urlGet = "http://10.0.0.9:8000/bomba/1/";
+    String urlGet = "http://10.8.30.147:8000/bomba/1/";
     int id = 0;
 
     try {
@@ -193,7 +205,7 @@ class _TemperSoloState extends State<TemperSolo> {
       }
 
       if (id == 1) {
-        String url = "http://10.0.0.9:8000/bomba/${id.toString()}/";
+        String url = "http://10.8.30.147:8000/bomba/${id.toString()}/";
         var response =
             await http.put(Uri.parse(url), body: {"estado": value.toString()});
         if (response.statusCode == 200) {
@@ -206,54 +218,5 @@ class _TemperSoloState extends State<TemperSolo> {
     } catch (e) {
       return false;
     }
-  }
-}
-
-class ListSoloTemp extends StatelessWidget {
-  const ListSoloTemp({
-    super.key,
-    required this.horta,
-  });
-
-  final List<Map<String, dynamic>> horta;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.deepOrange,
-        title: const Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [Text("Umidade do Solo"), Text("       ")],
-            ),
-          ],
-        ),
-      ),
-      body: ListView.builder(
-        itemCount: horta.length,
-        itemBuilder: (context, index) {
-          final hortas = horta[index];
-          return Row(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Humidade: ${hortas['umidade']}",
-                      style: const TextStyle(
-                          fontSize: 15, fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          );
-        },
-      ),
-    );
   }
 }

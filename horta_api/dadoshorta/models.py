@@ -4,7 +4,7 @@ from django.db import models
 class DadhosHorta(models.Model):
     temperatura = models.CharField(max_length=100)
     umidade = models.CharField(max_length=100)
-    criado = models.DateTimeField(default=timezone.now)
+    data = models.DateTimeField(default=timezone.now)
    
     def __str__(self):
         return self.temperatura + self.umidade

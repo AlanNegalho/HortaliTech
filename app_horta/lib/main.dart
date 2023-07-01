@@ -1,7 +1,7 @@
-import 'package:app_horta/home.dart';
-import 'package:app_horta/sobre.dart';
-import 'package:app_horta/temperatura_solo.dart';
-import 'package:app_horta/temperatura_umidade.dart';
+import 'package:app_horta/home/home.dart';
+import 'package:app_horta/home/sobre.dart';
+import 'package:app_horta/pages/temp_solo/temperatura_solo.dart';
+import 'package:app_horta/pages/temperatura_umidade_solo/temperatura_umidade.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(const MyApp());
