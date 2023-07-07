@@ -1,6 +1,6 @@
 
 from django.contrib import admin
-from dadoshorta.models import DadhosHorta, UmidadeSolo
+from dadoshorta.models import DadhosHorta, UmidadeSolo, Bomba, BombaUsuario
 
 class DadosHostas(admin.ModelAdmin):
     list_display = ('id', 'temperatura', 'umidade')
@@ -9,3 +9,7 @@ class DadosHostas(admin.ModelAdmin):
 admin.site.register(DadhosHorta, DadosHostas)
 
 admin.site.register(UmidadeSolo)
+
+admin.site.register(Bomba)
+
+admin.site.register(BombaUsuario)

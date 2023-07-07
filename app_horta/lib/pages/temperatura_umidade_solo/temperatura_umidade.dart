@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:intl/intl.dart';
 import 'dart:convert';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -57,18 +56,18 @@ class _TempHumidadeState extends State<TempHumidade> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xFF09CD27),
-        title: const Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "Temperatura e Umidade",
-                ),
-              ],
-            ),
-          ],
+        title: Text(
+          "Temperatura e Umidade",
         ),
+        centerTitle: true,
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.pushNamed(context, '/temperatura_umidade');
+            },
+            icon: const Icon(Icons.refresh),
+          ),
+        ],
       ),
       body: _isLoading
           ? const Center(
@@ -97,7 +96,7 @@ class _TempHumidadeState extends State<TempHumidade> {
                         CircularPercentIndicator(
                           radius: 100.0,
                           lineWidth: 12.0,
-                          animation: true,
+                          animation: false,
                           percent:
                               double.parse(horta.first['temperatura']) / 100,
                           center: Text(
@@ -129,7 +128,7 @@ class _TempHumidadeState extends State<TempHumidade> {
                         CircularPercentIndicator(
                           radius: 100.0,
                           lineWidth: 12.0,
-                          animation: true,
+                          animation: false,
                           percent: double.parse(horta.first['umidade']) / 100,
                           center: Text(
                             "${horta.first['umidade']}ºC",

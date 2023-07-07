@@ -14,18 +14,8 @@ class _HomePageState extends State<HomePage> {
       //backgroundColor: Colors.cyan[100],
       appBar: AppBar(
         backgroundColor: const Color(0xFF09CD27),
-        title: const Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text("App horta"),
-                Text("         "),
-              ],
-            ),
-          ],
-        ),
+        title: const Text('App Horta'),
+        centerTitle: true,
       ),
       drawer: Drawer(
         //backgroundColor: Colors.grey[200],

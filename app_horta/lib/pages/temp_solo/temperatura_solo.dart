@@ -18,6 +18,8 @@ class _TemperSoloState extends State<TemperSolo> {
   bool _isLoading = true;
   List<Map<String, dynamic>> horta = [];
 
+  String mensagem = "";
+
   @override
   void initState() {
     super.initState();
@@ -42,7 +44,7 @@ class _TemperSoloState extends State<TemperSolo> {
       final data = json.decode(response.body);
       setState(() {
         _isLoading = false;
-        horta = List<Map<String, dynamic>>.from(data.reversed);
+        horta = List<Map<String, dynamic>>.from(data);
       });
     } else {
       setState(() {
@@ -58,14 +60,8 @@ class _TemperSoloState extends State<TemperSolo> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xFF09CD27),
-        title: const Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [Text("Umidade do Solo"), Text("       ")],
-            ),
-          ],
-        ),
+        title: const Text("Umidade do Solo"),
+        centerTitle: true,
       ),
       body: _isLoading
           ? const Center(
@@ -149,9 +145,55 @@ class _TemperSoloState extends State<TemperSolo> {
                           child: const Text("Ligar Bomba")),
                     ),
                     ElevatedButton(
+                      style: ButtonStyle(
+                        minimumSize:
+                            MaterialStateProperty.all(const Size(140, 38)),
+                        side: MaterialStateProperty.all(
+                          const BorderSide(color: Colors.black),
+                        ),
+                      ),
+                      onPressed: click
+                          ? () {}
+                          : () async {
+                              setState(() {
+                                click = false;
+                              });
+                              bool result = await setEstadoBomba(false);
+                              setState(() {
+                                click = false;
+                              });
+                              if (result) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text("Bomba Desligada"),
+                                    backgroundColor: Colors.green,
+                                  ),
+                                );
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text("Erro ao desligar a bomba"),
+                                    backgroundColor: Colors.red,
+                                  ),
+                                );
+                              }
+                            },
+                      child: const Text(
+                        "Desligar Bomba",
+                      ),
+                    ),
+                  ],
+                ),
+                const Divider(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton(
                         style: ButtonStyle(
                           minimumSize:
                               MaterialStateProperty.all(const Size(140, 38)),
+                          backgroundColor: MaterialStateProperty.all(
+                              Color.fromARGB(255, 3, 14, 95)),
                           side: MaterialStateProperty.all(
                             const BorderSide(color: Colors.black),
                           ),
@@ -162,28 +204,28 @@ class _TemperSoloState extends State<TemperSolo> {
                                 setState(() {
                                   click = false;
                                 });
-                                bool result = await setEstadoBomba(false);
+                                bool result = await setEstadoUser();
                                 setState(() {
                                   click = false;
                                 });
                                 if (result) {
                                   ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text("Bomba Desligada"),
+                                    SnackBar(
+                                      content: Text(mensagem),
                                       backgroundColor: Colors.green,
                                     ),
                                   );
                                 } else {
                                   ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text("Erro ao desligar a bomba"),
+                                    SnackBar(
+                                      content: Text(mensagem),
                                       backgroundColor: Colors.red,
                                     ),
                                   );
                                 }
                               },
                         child: const Text(
-                          "Desligar Bomba",
+                          "User Autorização",
                         ))
                   ],
                 )
@@ -193,21 +235,26 @@ class _TemperSoloState extends State<TemperSolo> {
   }
 
   Future<bool> setEstadoBomba(bool value) async {
-    String urlGet = "http://10.8.30.147:8000/bomba/1/";
+    String urlGet = "http://10.8.30.147:8000/bombausuario/1/";
     int id = 0;
+    bool userAuth = false;
 
     try {
       var responseGet = await http.get(Uri.parse(urlGet));
+      print(responseGet.statusCode);
 
       if (responseGet.statusCode == 200) {
         final data = json.decode(responseGet.body);
+        print(data);
         id = data['id'];
+        userAuth = data['user'];
       }
 
-      if (id == 1) {
-        String url = "http://10.8.30.147:8000/bomba/${id.toString()}/";
+      if (id == 1 && userAuth == true) {
+        String url = "http://10.8.30.147:8000/bombausuario/${id.toString()}/";
         var response =
-            await http.put(Uri.parse(url), body: {"estado": value.toString()});
+            await http.patch(Uri.parse(url), body: {"bomba": value.toString()});
+
         if (response.statusCode == 200) {
           return true;
         } else {
@@ -216,6 +263,48 @@ class _TemperSoloState extends State<TemperSolo> {
       }
       return false;
     } catch (e) {
+      return false;
+    }
+  }
+
+  Future<bool> setEstadoUser() async {
+    String urlGet = "http://10.8.30.147:8000/bombausuario/1/";
+    int id = 0;
+    bool userAuth = false;
+    bool value = true;
+
+    try {
+      var responseGet = await http.get(Uri.parse(urlGet));
+
+      if (responseGet.statusCode == 200) {
+        final data = json.decode(responseGet.body);
+        id = data['id'];
+        userAuth = data['user'];
+      }
+
+      if (id == 1) {
+        if (userAuth == true) {
+          value = false;
+        } else {
+          value = true;
+        }
+
+        String url = "http://10.8.30.147:8000/bombausuario/${id.toString()}/";
+        var response =
+            await http.put(Uri.parse(url), body: {"user": value.toString()});
+
+        if (response.statusCode == 200) {
+          mensagem = value ? "User Autorizado" : "User Não Autorizado";
+          return true;
+        } else {
+          mensagem = "Erro ao mudar o estado do user";
+          return false;
+        }
+      }
+      mensagem = "Erro ao mudar o estado do user";
+      return false;
+    } catch (e) {
+      mensagem = "Erro ao mudar o estado do user";
       return false;
     }
   }
