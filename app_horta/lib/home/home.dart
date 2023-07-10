@@ -14,8 +14,19 @@ class _HomePageState extends State<HomePage> {
       //backgroundColor: Colors.cyan[100],
       appBar: AppBar(
         backgroundColor: const Color(0xFF09CD27),
-        title: const Text('App Horta'),
+        title: const Text('App Horta',
+            style: TextStyle(
+              color: Colors.black,
+            )),
         centerTitle: true,
+        iconTheme: const IconThemeData(color: Colors.black),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.spa_outlined),
+            color: const Color(0xFF000000),
+          ),
+        ],
       ),
       drawer: Drawer(
         //backgroundColor: Colors.grey[200],
@@ -54,6 +65,7 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
+
       body: Column(
         children: [
           const SizedBox(

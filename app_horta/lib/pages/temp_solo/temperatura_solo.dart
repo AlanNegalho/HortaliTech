@@ -1,6 +1,8 @@
 // ignore_for_file: use_build_context_synchronously, dead_code
 
 import 'dart:async';
+import 'package:chart_sparkline/chart_sparkline.dart';
+import 'package:rolling_switch/rolling_switch.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -27,14 +29,14 @@ class _TemperSoloState extends State<TemperSolo> {
   }
 
   void startTimer() {
-    Timer.periodic(const Duration(seconds: 10), (timer) {
+    Timer.periodic(const Duration(seconds: 5), (timer) {
       fetchData();
     });
   }
 
   Future<void> fetchData() async {
     setState(() {
-      _isLoading = true;
+      //_isLoading = true;
     });
 
     final response =
@@ -60,48 +62,93 @@ class _TemperSoloState extends State<TemperSolo> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xFF09CD27),
-        title: const Text("Umidade do Solo"),
+        title: const Text("Umidade do Solo",
+            style: TextStyle(color: Colors.black)),
         centerTitle: true,
+        iconTheme: const IconThemeData(color: Colors.black),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.spa_outlined),
+            color: const Color(0xFF000000),
+          ),
+        ],
       ),
       body: _isLoading
-          ? const Center(
-              child: CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(Colors.deepOrange),
+          ? Container(
+              decoration: const BoxDecoration(
+                  image: DecorationImage(
+                image: AssetImage("assets/images/for.png"),
+              )),
+              alignment: Alignment.center,
+              child: const Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CircularProgressIndicator(
+                    valueColor:
+                        AlwaysStoppedAnimation<Color>(Colors.deepOrange),
+                    backgroundColor: Color.fromARGB(26, 61, 49, 49),
+                  ),
+                ],
               ),
             )
           : Column(
               children: [
                 Container(
-                  height: 250,
-                  padding: const EdgeInsets.only(top: 8),
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ListSoloTemp(horta: horta),
-                        ),
-                      );
-                    },
-                    child: Row(
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.all(10),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Divider(),
-                              Text(
-                                "Umidade: ${horta.first['umidade']}",
-                                style: const TextStyle(
-                                    fontSize: 15, fontWeight: FontWeight.bold),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
+                  decoration: BoxDecoration(
+                    //color: Color.fromARGB(255, 150, 152, 150),
+                    borderRadius: BorderRadius.circular(10),
                   ),
+                  padding: const EdgeInsets.all(10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Divider(),
+                      Text(
+                        "Umidade: ${horta.first['umidade']}",
+                        style: const TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      Container(
+                        padding: const EdgeInsets.only(top: 20.0, bottom: 20.0),
+                        margin: const EdgeInsets.only(left: 8.0, right: 10.0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10.0),
+                          color: Colors.white,
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Colors.black12,
+                              blurRadius: 5.0,
+                              offset: Offset(0, 5),
+                            ),
+                          ],
+                        ),
+                        child: Sparkline(
+                          data: horta
+                              .map((e) => double.parse(e['umidade']))
+                              .toList(),
+                          lineWidth: 2.0,
+                          useCubicSmoothing: true,
+                          cubicSmoothingFactor: 0.2,
+                          pointSize: 5.0,
+                          gridLinelabelPrefix: '%',
+                          fallbackHeight: 200.0,
+                          fallbackWidth: 300.0,
+                          gridLineAmount: 5,
+                          enableGridLines: true,
+                          kLine: const ['max', 'min', 'first', 'last'],
+                          max: 2.0,
+                          min: -1.0,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 40,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -188,47 +235,50 @@ class _TemperSoloState extends State<TemperSolo> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    ElevatedButton(
-                        style: ButtonStyle(
-                          minimumSize:
-                              MaterialStateProperty.all(const Size(140, 38)),
-                          backgroundColor: MaterialStateProperty.all(
-                              Color.fromARGB(255, 3, 14, 95)),
-                          side: MaterialStateProperty.all(
-                            const BorderSide(color: Colors.black),
-                          ),
-                        ),
-                        onPressed: click
-                            ? () {}
-                            : () async {
-                                setState(() {
-                                  click = false;
-                                });
-                                bool result = await setEstadoUser();
-                                setState(() {
-                                  click = false;
-                                });
-                                if (result) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text(mensagem),
-                                      backgroundColor: Colors.green,
-                                    ),
-                                  );
-                                } else {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text(mensagem),
-                                      backgroundColor: Colors.red,
-                                    ),
-                                  );
-                                }
-                              },
-                        child: const Text(
-                          "User Autorização",
-                        ))
+                    RollingSwitch.icon(
+                      onChanged: click
+                          ? (bool state) {}
+                          : (bool state) async {
+                              setState(() {
+                                click = false;
+                              });
+                              bool result = await setEstadoUser();
+                              setState(() {
+                                click = true;
+                              });
+                              if (result) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(mensagem),
+                                    backgroundColor: Colors.green,
+                                  ),
+                                );
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text("Erro ao ativar a horta"),
+                                    backgroundColor: Colors.red,
+                                  ),
+                                );
+                              }
+                            },
+                    )
                   ],
-                )
+                ),
+                const SizedBox(
+                  height: 40,
+                ),
+                ElevatedButton(
+                  onPressed: () async {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ListSoloTemp(horta: horta),
+                      ),
+                    );
+                  },
+                  child: const Text("Histórico"),
+                ),
               ],
             ),
     );

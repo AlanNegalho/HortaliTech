@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 
 class ListTemp extends StatefulWidget {
@@ -17,23 +15,25 @@ class ListTemp extends StatefulWidget {
 Widget grafico = Container();
 bool graficoLoaded = false;
 
-// getGrafico() {
-//   if (!graficoLoaded) {
-//     grafico = GraficoHistorico(horta: widget.horta);
-//     graficoLoaded = true;
-//   }
-//   return grafico;
-// }
-
 class _ListTempState extends State<ListTemp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Temperatura e Umidade"),
+        iconTheme: const IconThemeData(color: Colors.black),
+        backgroundColor: const Color(0xFF09CD27),
+        title: const Text(
+          "Temperatura e Umidade",
+          style: TextStyle(color: Colors.black),
+        ),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.spa_outlined),
+            color: const Color(0xFF000000),
+          ),
+        ],
         centerTitle: true,
-        clipBehavior: Clip
-            .antiAliasWithSaveLayer, // Utilizado para evitar o erro de overflow
       ),
       body: ListView.builder(
         itemCount: widget.horta.length,
@@ -45,7 +45,7 @@ class _ListTempState extends State<ListTemp> {
             padding: const EdgeInsets.all(2),
             margin: const EdgeInsets.all(5),
             decoration: BoxDecoration(
-              color: const Color.fromARGB(255, 213, 206, 206),
+              color: const Color(0xFFEBE7E7),
               borderRadius: BorderRadius.circular(10),
             ),
             child: Row(
@@ -67,6 +67,7 @@ class _ListTempState extends State<ListTemp> {
                       style: const TextStyle(
                           fontSize: 15, fontWeight: FontWeight.bold),
                     ),
+                    const Divider(),
                     Text(
                       "Data: ${hortas['data']}",
                     )
