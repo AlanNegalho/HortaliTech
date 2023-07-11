@@ -29,7 +29,11 @@ class _TemperSoloState extends State<TemperSolo> {
   }
 
   void startTimer() {
-    Timer.periodic(const Duration(seconds: 5), (timer) {
+    Timer.periodic(const Duration(seconds: 1), (timer) {
+      fetchData();
+      timer.cancel();
+    });
+    Timer.periodic(const Duration(seconds: 10), (timer) {
       fetchData();
     });
   }
@@ -76,10 +80,7 @@ class _TemperSoloState extends State<TemperSolo> {
       ),
       body: _isLoading
           ? Container(
-              decoration: const BoxDecoration(
-                  image: DecorationImage(
-                image: AssetImage("assets/images/for.png"),
-              )),
+              decoration: const BoxDecoration(),
               alignment: Alignment.center,
               child: const Column(
                 mainAxisAlignment: MainAxisAlignment.center,

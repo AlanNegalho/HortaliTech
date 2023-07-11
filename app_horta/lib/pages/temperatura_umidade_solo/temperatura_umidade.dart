@@ -27,6 +27,10 @@ class _TempHumidadeState extends State<TempHumidade> {
   }
 
   void startTimer() {
+    Timer.periodic(const Duration(seconds: 1), (timer) {
+      fetchData();
+      timer.cancel();
+    });
     Timer.periodic(const Duration(seconds: 10), (timer) {
       fetchData();
     });
