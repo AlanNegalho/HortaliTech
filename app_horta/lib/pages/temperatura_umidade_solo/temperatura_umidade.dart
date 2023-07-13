@@ -31,7 +31,7 @@ class _TempHumidadeState extends State<TempHumidade> {
       fetchData();
       timer.cancel();
     });
-    Timer.periodic(const Duration(seconds: 10), (timer) {
+    Timer.periodic(const Duration(seconds: 60), (timer) {
       fetchData();
     });
   }
@@ -41,8 +41,8 @@ class _TempHumidadeState extends State<TempHumidade> {
       //_isLoading = true;
     });
 
-    final response =
-        await http.get(Uri.parse("http://10.8.30.147:8000/dadoshorta/"));
+    final response = await http
+        .get(Uri.parse("https://alanoliveira.pythonanywhere.com/dadoshorta/"));
 
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
@@ -115,10 +115,59 @@ class _TempHumidadeState extends State<TempHumidade> {
                             circularStrokeCap: CircularStrokeCap.round,
                             progressColor: Colors.deepOrange,
                           ),
-                          const Icon(
-                            Icons.thermostat_outlined,
-                            size: 80,
-                            color: Colors.deepOrange,
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Icon(
+                                    Icons.thermostat_outlined,
+                                    color: Colors.deepOrange,
+                                    size: 30,
+                                  ),
+                                  Text(
+                                    'Temperatura',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15.0),
+                                  ),
+                                ],
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 30.0),
+                                child: Text(
+                                  "${horta.first['temperatura']} ºC",
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15.0),
+                                ),
+                              ),
+                              const Row(
+                                children: [
+                                  Icon(
+                                    Icons.date_range_outlined,
+                                    color: Colors.deepOrange,
+                                    size: 30,
+                                  ),
+                                  Text(
+                                    'Data/Hora',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15.0),
+                                  ),
+                                ],
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 30.0),
+                                child: Text(
+                                  "${horta.first['data']} ",
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15.0),
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),
@@ -146,13 +195,63 @@ class _TempHumidadeState extends State<TempHumidade> {
                             circularStrokeCap: CircularStrokeCap.round,
                             progressColor: const Color(0xFF22D6FF),
                           ),
-                          const Icon(
-                            Icons.water_drop_outlined,
-                            color: Color(0xFF22D6FF),
-                            size: 80,
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Icon(
+                                    Icons.water_drop_outlined,
+                                    color: Color(0xFF22D6FF),
+                                    size: 30,
+                                  ),
+                                  Text(
+                                    'Umidade',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15.0),
+                                  ),
+                                ],
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 30.0),
+                                child: Text(
+                                  "${horta.first['umidade']} %",
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15.0),
+                                ),
+                              ),
+                              const Row(
+                                children: [
+                                  Icon(
+                                    Icons.date_range_outlined,
+                                    color: Color(0xFF22D6FF),
+                                    size: 30,
+                                  ),
+                                  Text(
+                                    'Data/Hora',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15.0),
+                                  ),
+                                ],
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 30.0),
+                                child: Text(
+                                  "${horta.first['data']} ",
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15.0),
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),
+
                       Container(
                         padding: const EdgeInsets.only(top: 20.0),
                         margin: const EdgeInsets.only(left: 20.0, right: 20.0),

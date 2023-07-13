@@ -41,6 +41,7 @@ class ListSoloTemp extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
             ),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -60,6 +61,10 @@ class ListSoloTemp extends StatelessWidget {
                     ),
                   ],
                 ),
+                Icon(
+                  Icons.spa_outlined,
+                  color: Color.fromARGB(255, 229, 126, 82),
+                )
               ],
             ),
           );

@@ -33,7 +33,7 @@ class _TemperSoloState extends State<TemperSolo> {
       fetchData();
       timer.cancel();
     });
-    Timer.periodic(const Duration(seconds: 10), (timer) {
+    Timer.periodic(const Duration(seconds: 60), (timer) {
       fetchData();
     });
   }
@@ -43,8 +43,8 @@ class _TemperSoloState extends State<TemperSolo> {
       //_isLoading = true;
     });
 
-    final response =
-        await http.get(Uri.parse("http://10.8.30.147:8000/umidadesolo/"));
+    final response = await http
+        .get(Uri.parse("https://alanoliveira.pythonanywhere.com/umidadesolo/"));
 
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
@@ -105,10 +105,23 @@ class _TemperSoloState extends State<TemperSolo> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Divider(),
-                      Text(
-                        "Umidade: ${horta.first['umidade']}",
-                        style: const TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
+                      Row(
+                        children: [
+                          Text(
+                            "Umidade: ${horta.first['umidade']}",
+                            style: const TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold),
+                          ),
+                          Column(
+                            children: [
+                              Text("data/Hora"),
+                              Text((horta.first['data']),
+                                  style: const TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold)),
+                            ],
+                          ),
+                        ],
                       ),
                       const SizedBox(
                         height: 15,
@@ -286,7 +299,7 @@ class _TemperSoloState extends State<TemperSolo> {
   }
 
   Future<bool> setEstadoBomba(bool value) async {
-    String urlGet = "http://10.8.30.147:8000/bombausuario/1/";
+    String urlGet = "https://alanoliveira.pythonanywhere.com/bombausuario/1/";
     int id = 0;
     bool userAuth = false;
 
@@ -302,7 +315,8 @@ class _TemperSoloState extends State<TemperSolo> {
       }
 
       if (id == 1 && userAuth == true) {
-        String url = "http://10.8.30.147:8000/bombausuario/${id.toString()}/";
+        String url =
+            "https://alanoliveira.pythonanywhere.com/bombausuario/${id.toString()}/";
         var response =
             await http.patch(Uri.parse(url), body: {"bomba": value.toString()});
 
@@ -319,7 +333,7 @@ class _TemperSoloState extends State<TemperSolo> {
   }
 
   Future<bool> setEstadoUser() async {
-    String urlGet = "http://10.8.30.147:8000/bombausuario/1/";
+    String urlGet = "https://alanoliveira.pythonanywhere.com/bombausuario/1/";
     int id = 0;
     bool userAuth = false;
     bool value = true;
@@ -340,7 +354,8 @@ class _TemperSoloState extends State<TemperSolo> {
           value = true;
         }
 
-        String url = "http://10.8.30.147:8000/bombausuario/${id.toString()}/";
+        String url =
+            "https://alanoliveira.pythonanywhere.com/bombausuario/${id.toString()}/";
         var response =
             await http.put(Uri.parse(url), body: {"user": value.toString()});
 

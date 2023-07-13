@@ -74,8 +74,8 @@ class _ListTempState extends State<ListTemp> {
                   ],
                 ),
                 const Icon(
-                  Icons.thermostat_outlined,
-                  size: 60,
+                  Icons.wb_sunny_rounded,
+                  size: 40,
                   color: Colors.deepOrange,
                 ),
               ],
