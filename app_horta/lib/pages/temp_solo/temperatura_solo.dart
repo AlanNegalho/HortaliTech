@@ -254,11 +254,11 @@ class _TemperSoloState extends State<TemperSolo> {
                           ? (bool state) {}
                           : (bool state) async {
                               setState(() {
-                                click = false;
+                                click = true;
                               });
                               bool result = await setEstadoUser();
                               setState(() {
-                                click = true;
+                                click = false;
                               });
                               if (result) {
                                 ScaffoldMessenger.of(context).showSnackBar(
