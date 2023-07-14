@@ -69,7 +69,7 @@ class _HomePageState extends State<HomePage> {
       body: Column(
         children: [
           const SizedBox(
-            height: 30,
+            height: 50,
           ),
           const Text(
             'Bem vindo ao App Horta',
@@ -78,7 +78,7 @@ class _HomePageState extends State<HomePage> {
               fontWeight: FontWeight.w400,
             ),
           ),
-          Image.asset('assets/farm.png', width: 700, height: 300),
+          Image.asset('assets/farm.png', width: 800, height: 400),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

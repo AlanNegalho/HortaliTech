@@ -32,9 +32,8 @@ class ListSoloTemp extends StatelessWidget {
         itemBuilder: (context, index) {
           final hortas = horta[index];
           return Container(
-            width: 100,
             height: 50,
-            padding: const EdgeInsets.all(6),
+            padding: const EdgeInsets.only(left: 10, right: 10),
             margin: const EdgeInsets.all(5),
             decoration: BoxDecoration(
               color: const Color(0xFFEBE7E7),
@@ -47,7 +46,7 @@ class ListSoloTemp extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Humidade: ${hortas['umidade']}",
+                      "Umidade: ${hortas['umidade']}",
                       style: const TextStyle(
                           fontSize: 15, fontWeight: FontWeight.bold),
                     ),
@@ -61,7 +60,7 @@ class ListSoloTemp extends StatelessWidget {
                     ),
                   ],
                 ),
-                Icon(
+                const Icon(
                   Icons.spa_outlined,
                   color: Color.fromARGB(255, 229, 126, 82),
                 )

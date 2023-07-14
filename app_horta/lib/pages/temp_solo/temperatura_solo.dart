@@ -10,7 +10,7 @@ import 'dart:convert';
 import 'detalhes_solo_temp.dart';
 
 class TemperSolo extends StatefulWidget {
-  const TemperSolo({super.key});
+  const TemperSolo({Key? key}) : super(key: key);
 
   @override
   _TemperSoloState createState() => _TemperSoloState();
@@ -21,6 +21,16 @@ class _TemperSoloState extends State<TemperSolo> {
   List<Map<String, dynamic>> horta = [];
 
   String mensagem = "";
+
+  String getMensagemUmidade(int valor) {
+    if (valor == 0) {
+      return 'Molhado';
+    } else if (valor == 1) {
+      return 'Seco';
+    }
+    // Caso o valor não seja nem 0 nem 1, retorne uma mensagem de erro ou um valor padrão.
+    return 'Valor inválido';
+  }
 
   @override
   void initState() {
@@ -100,21 +110,44 @@ class _TemperSoloState extends State<TemperSolo> {
                     //color: Color.fromARGB(255, 150, 152, 150),
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  padding: const EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(20),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    //crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      const Divider(),
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            "Umidade: ${horta.first['umidade']}",
-                            style: const TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.bold),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Umidade: ${horta.first['umidade']}",
+                                style: const TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                'Solo ${getMensagemUmidade(int.parse(horta.first['umidade']))}',
+                                style: const TextStyle(
+                                    fontSize: 15, fontWeight: FontWeight.bold),
+                              ),
+                            ],
                           ),
                           Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text("data/Hora"),
+                              const Row(
+                                children: [
+                                  Icon(
+                                    Icons.date_range_outlined,
+                                    color: Colors.deepOrange,
+                                    size: 30,
+                                  ),
+                                  Text("Data/Hora",
+                                      style: TextStyle(
+                                          fontSize: 17,
+                                          fontWeight: FontWeight.bold)),
+                                ],
+                              ),
                               Text((horta.first['data']),
                                   style: const TextStyle(
                                       fontSize: 15,
@@ -124,11 +157,11 @@ class _TemperSoloState extends State<TemperSolo> {
                         ],
                       ),
                       const SizedBox(
-                        height: 15,
+                        height: 50,
                       ),
                       Container(
-                        padding: const EdgeInsets.only(top: 20.0, bottom: 20.0),
-                        margin: const EdgeInsets.only(left: 8.0, right: 10.0),
+                        padding: const EdgeInsets.only(top: 15.0, bottom: 20.0),
+                        // margin: const EdgeInsets.only(left: 4.0, right: 6.0),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10.0),
                           color: Colors.white,
@@ -140,29 +173,45 @@ class _TemperSoloState extends State<TemperSolo> {
                             ),
                           ],
                         ),
-                        child: Sparkline(
-                          data: horta
-                              .map((e) => double.parse(e['umidade']))
-                              .toList(),
-                          lineWidth: 2.0,
-                          useCubicSmoothing: true,
-                          cubicSmoothingFactor: 0.2,
-                          pointSize: 5.0,
-                          gridLinelabelPrefix: '%',
-                          fallbackHeight: 200.0,
-                          fallbackWidth: 300.0,
-                          gridLineAmount: 5,
-                          enableGridLines: true,
-                          kLine: const ['max', 'min', 'first', 'last'],
-                          max: 2.0,
-                          min: -1.0,
+                        child: Container(
+                          //padding:
+                          // const EdgeInsets.only(top: 20.0, bottom: 20.0),
+                          margin: const EdgeInsets.only(left: 8.0, right: 10.0),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10.0),
+                            // color: Colors.white,
+                            // boxShadow: const [
+                            //   BoxShadow(
+                            //     color: Colors.black12,
+                            //     blurRadius: 5.0,
+                            //     offset: Offset(0, 5),
+                            //   ),
+                            // ],
+                          ),
+                          child: Sparkline(
+                            data: horta
+                                .map((e) => double.parse(e['umidade']))
+                                .toList(),
+                            lineWidth: 2.0,
+                            useCubicSmoothing: true,
+                            cubicSmoothingFactor: 0.2,
+                            pointSize: 5.0,
+                            //gridLinelabelPrefix: '%',
+                            fallbackHeight: 200.0,
+                            fallbackWidth: 300.0,
+                            gridLineAmount: 5,
+                            enableGridLines: true,
+                            // kLine: const ['max', 'min', 'first', 'last'],
+                            max: 2.0,
+                            min: -1.0,
+                          ),
                         ),
                       ),
                     ],
                   ),
                 ),
                 const SizedBox(
-                  height: 40,
+                  height: 30,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -245,10 +294,31 @@ class _TemperSoloState extends State<TemperSolo> {
                     ),
                   ],
                 ),
-                const Divider(),
-                Row(
+                const SizedBox(
+                  height: 30,
+                ),
+                const SizedBox(
+                    height: 40,
+                    child: Text(
+                      "Autorizar Usuário",
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    )),
+                Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    const Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text("OFF"),
+                        SizedBox(
+                          width: 40,
+                        ),
+                        Text("ON"),
+                      ],
+                    ),
                     RollingSwitch.icon(
                       onChanged: click
                           ? (bool state) {}

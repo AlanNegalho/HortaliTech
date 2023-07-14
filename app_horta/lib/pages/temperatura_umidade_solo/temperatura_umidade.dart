@@ -251,7 +251,9 @@ class _TempHumidadeState extends State<TempHumidade> {
                           ),
                         ],
                       ),
-
+                      SizedBox(
+                        height: 20,
+                      ),
                       Container(
                         padding: const EdgeInsets.only(top: 20.0),
                         margin: const EdgeInsets.only(left: 20.0, right: 20.0),
@@ -286,21 +288,22 @@ class _TempHumidadeState extends State<TempHumidade> {
                               pointSize: 5.0,
 
                               gridLinelabelPrefix: 'ºC',
-                              fallbackHeight: 100.0,
+                              fallbackHeight: 150.0,
                               fallbackWidth: 300.0,
 
-                              gridLineAmount: 5,
+                              gridLineAmount: 8,
 
                               enableGridLines: true,
                               //averageLine: true,
                               //averageLabel: true,
 
                               kLine: const ['max', 'min', 'first', 'last'],
-                              max: 100.0,
-                              min: 5.0,
+
+                              // max: 100.0,
+                              // min: 5.0,
                             ),
                             const SizedBox(
-                              height: 30,
+                              height: 60,
                             ),
                             Column(
                               children: [
@@ -326,18 +329,18 @@ class _TempHumidadeState extends State<TempHumidade> {
                                   pointSize: 5.0,
 
                                   gridLinelabelPrefix: '%',
-                                  fallbackHeight: 100.0,
+                                  fallbackHeight: 150.0,
                                   fallbackWidth: 300.0,
 
-                                  gridLineAmount: 5,
+                                  gridLineAmount: 8,
 
                                   enableGridLines: true,
                                   //averageLine: true,
                                   //averageLabel: true,
 
                                   kLine: const ['max', 'min', 'first', 'last'],
-                                  max: 100.0,
-                                  min: 26.0,
+                                  // max: 100.0,
+                                  //min: 10.0,
 
                                   //enableThreshold: true,
                                   // lineGradient: LinearGradient(
@@ -354,22 +357,23 @@ class _TempHumidadeState extends State<TempHumidade> {
                           ],
                         ),
                       ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ListTemp(horta: horta)),
+                          );
+                        },
+                        child: const Text('histórico'),
+                      )
                     ],
                   ),
                 ),
-                const SizedBox(
-                  height: 20,
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => ListTemp(horta: horta)),
-                    );
-                  },
-                  child: const Text('histórico'),
-                )
               ],
             ),
     );
