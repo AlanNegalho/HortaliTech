@@ -1,13 +1,14 @@
 // ignore_for_file: use_build_context_synchronously, dead_code
-
-import 'dart:async';
+import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:chart_sparkline/chart_sparkline.dart';
 import 'package:rolling_switch/rolling_switch.dart';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert';
-
+import '../bomba/bomba_irrigacao.dart';
+import 'package:flutter/material.dart';
 import 'detalhes_solo_temp.dart';
+import 'dart:convert';
+import 'dart:async';
+import 'dart:math';
 
 class TemperSolo extends StatefulWidget {
   const TemperSolo({Key? key}) : super(key: key);
@@ -23,13 +24,15 @@ class _TemperSoloState extends State<TemperSolo> {
   String mensagem = "";
 
   String getMensagemUmidade(int valor) {
-    if (valor == 0) {
-      return 'Molhado';
-    } else if (valor == 1) {
-      return 'Seco';
+    if (valor < 60) {
+      return "Solo Seco";
+    } else if (valor >= 60 && valor <= 75) {
+      return "Solo Úmido";
+    } else if (valor > 75) {
+      return "Solo Molhado";
     }
-    // Caso o valor não seja nem 0 nem 1, retorne uma mensagem de erro ou um valor padrão.
-    return 'Valor inválido';
+    // Caso o valor não esteja em nenhuma das faixas acima, retorne uma mensagem de erro ou um valor padrão.
+    return "Valor inválido";
   }
 
   @override
@@ -117,41 +120,89 @@ class _TemperSoloState extends State<TemperSolo> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Umidade: ${horta.first['umidade']}",
-                                style: const TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.bold),
-                              ),
-                              Text(
-                                'Solo ${getMensagemUmidade(int.parse(horta.first['umidade']))}',
-                                style: const TextStyle(
-                                    fontSize: 15, fontWeight: FontWeight.bold),
-                              ),
-                            ],
+                          CircularPercentIndicator(
+                            radius: 90.0,
+                            lineWidth: 12.0,
+                            animation: false,
+                            percent: double.parse(horta.first['umidade']) / 100,
+                            center: Text(
+                              "${horta.first['umidade']} %",
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 20.0),
+                            ),
+                            progressColor: Colors.deepOrange,
                           ),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               const Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Icon(
+                                    Icons.water_drop_outlined,
+                                    color: Color(0xFF22D6FF),
+                                    size: 30,
+                                  ),
+                                  Text(
+                                    'Umidade',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15.0),
+                                  ),
+                                ],
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 30.0),
+                                child: Text(
+                                  "${horta.first['umidade']} %",
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15.0),
+                                ),
+                              ),
+                              const Row(
                                 children: [
                                   Icon(
                                     Icons.date_range_outlined,
-                                    color: Colors.deepOrange,
+                                    color: Color(0xFF22D6FF),
                                     size: 30,
                                   ),
-                                  Text("Data/Hora",
-                                      style: TextStyle(
-                                          fontSize: 17,
-                                          fontWeight: FontWeight.bold)),
+                                  Text(
+                                    'Data/Hora',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15.0),
+                                  ),
                                 ],
                               ),
-                              Text((horta.first['data']),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 30.0),
+                                child: Text(
+                                  "${horta.first['data']} ",
                                   style: const TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.bold)),
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15.0),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                "  Umidade  ",
+                                style: TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                '   ${getMensagemUmidade(int.parse(horta.first['umidade']))}',
+                                style: const TextStyle(
+                                    fontSize: 15, fontWeight: FontWeight.bold),
+                              ),
                             ],
                           ),
                         ],
@@ -191,19 +242,31 @@ class _TemperSoloState extends State<TemperSolo> {
                           child: Sparkline(
                             data: horta
                                 .map((e) => double.parse(e['umidade']))
-                                .toList(),
+                                .toList()
+                                .sublist(0, min(50, horta.length)),
+
                             lineWidth: 2.0,
+                            pointsMode: PointsMode.all,
+
+                            //backgroundColor: Colors.red,
+                            //lineColor: Colors.lightGreen[500]!,
+                            //fillMode: FillMode.none,
+                            //fillColor: Colors.lightGreen[200]!,
                             useCubicSmoothing: true,
                             cubicSmoothingFactor: 0.2,
                             pointSize: 5.0,
-                            //gridLinelabelPrefix: '%',
-                            fallbackHeight: 200.0,
+
+                            gridLinelabelPrefix: '%',
+                            fallbackHeight: 150.0,
                             fallbackWidth: 300.0,
-                            gridLineAmount: 5,
+
+                            gridLineAmount: 8,
+
                             enableGridLines: true,
-                            // kLine: const ['max', 'min', 'first', 'last'],
-                            max: 2.0,
-                            min: -1.0,
+                            //averageLine: true,
+                            //averageLabel: true,
+
+                            kLine: const ['max', 'min', 'first', 'last'],
                           ),
                         ),
                       ),
@@ -219,48 +282,50 @@ class _TemperSoloState extends State<TemperSolo> {
                     Padding(
                       padding: const EdgeInsets.only(right: 10),
                       child: ElevatedButton(
-                          style: ButtonStyle(
-                            minimumSize:
-                                MaterialStateProperty.all(const Size(140, 38)),
-                            side: MaterialStateProperty.all(
-                              const BorderSide(color: Colors.black),
-                            ),
-                          ),
-                          onPressed: click
-                              ? () {}
-                              : () async {
-                                  setState(() {
-                                    click = true;
-                                  });
-                                  bool result = await setEstadoBomba(true);
-                                  setState(() {
-                                    click = false;
-                                  });
-                                  if (result) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content: Text("Bomba Ligada"),
-                                        backgroundColor: Colors.green,
-                                      ),
-                                    );
-                                  } else {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content: Text("Erro ao ligar a bomba"),
-                                        backgroundColor: Colors.red,
-                                      ),
-                                    );
-                                  }
-                                },
-                          child: const Text("Ligar Bomba")),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Color.fromARGB(255, 91, 194, 7),
+                          minimumSize: const Size(150, 36),
+                          side: const BorderSide(
+                              color: Color(0xFF080606), width: 2.0),
+                        ),
+                        onPressed: click
+                            ? () {}
+                            : () async {
+                                setState(() {
+                                  click = true;
+                                });
+                                bool result = await setEstadoBomba(true);
+                                setState(() {
+                                  click = false;
+                                });
+                                if (result) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text("Bomba Ligada"),
+                                      backgroundColor: Colors.green,
+                                    ),
+                                  );
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text("Erro ao ligar a bomba"),
+                                      backgroundColor: Colors.red,
+                                    ),
+                                  );
+                                }
+                              },
+                        child: const Text(
+                          "Ligar Bomba",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
                     ),
                     ElevatedButton(
-                      style: ButtonStyle(
-                        minimumSize:
-                            MaterialStateProperty.all(const Size(140, 38)),
-                        side: MaterialStateProperty.all(
-                          const BorderSide(color: Colors.black),
-                        ),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color.fromARGB(255, 203, 5, 5),
+                        minimumSize: const Size(150, 36),
+                        side: const BorderSide(
+                            color: Color(0xFF080606), width: 2.0),
                       ),
                       onPressed: click
                           ? () {}
@@ -290,6 +355,7 @@ class _TemperSoloState extends State<TemperSolo> {
                             },
                       child: const Text(
                         "Desligar Bomba",
+                        style: TextStyle(color: Colors.white),
                       ),
                     ),
                   ],
@@ -306,18 +372,16 @@ class _TemperSoloState extends State<TemperSolo> {
                         fontWeight: FontWeight.bold,
                       ),
                     )),
-                Column(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text("OFF"),
-                        SizedBox(
-                          width: 40,
-                        ),
-                        Text("ON"),
-                      ],
+                    const Text(
+                      "OFF",
+                      style:
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(
+                      width: 10,
                     ),
                     RollingSwitch.icon(
                       onChanged: click
@@ -333,7 +397,7 @@ class _TemperSoloState extends State<TemperSolo> {
                               if (result) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
-                                    content: Text(mensagem),
+                                    content: Text(getMensagem()),
                                     backgroundColor: Colors.green,
                                   ),
                                 );
@@ -346,7 +410,15 @@ class _TemperSoloState extends State<TemperSolo> {
                                 );
                               }
                             },
-                    )
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    const Text(
+                      "ON",
+                      style:
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
                   ],
                 ),
                 const SizedBox(
@@ -361,87 +433,95 @@ class _TemperSoloState extends State<TemperSolo> {
                       ),
                     );
                   },
-                  child: const Text("Histórico"),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color.fromARGB(255, 3, 171, 255),
+                    minimumSize: const Size(200, 36),
+                    side:
+                        const BorderSide(color: Color(0xFF080606), width: 2.0),
+                  ),
+                  child: const Text(
+                    "Histórico",
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
               ],
             ),
     );
   }
 
-  Future<bool> setEstadoBomba(bool value) async {
-    String urlGet = "https://alanoliveira.pythonanywhere.com/bombausuario/1/";
-    int id = 0;
-    bool userAuth = false;
+  // Future<bool> setEstadoBomba(bool value) async {
+  //   String urlGet = "https://alanoliveira.pythonanywhere.com/bombausuario/1/";
+  //   int id = 0;
+  //   bool userAuth = false;
 
-    try {
-      var responseGet = await http.get(Uri.parse(urlGet));
-      print(responseGet.statusCode);
+  //   try {
+  //     var responseGet = await http.get(Uri.parse(urlGet));
 
-      if (responseGet.statusCode == 200) {
-        final data = json.decode(responseGet.body);
-        print(data);
-        id = data['id'];
-        userAuth = data['user'];
-      }
+  //     if (responseGet.statusCode == 200) {
+  //       final data = json.decode(responseGet.body);
 
-      if (id == 1 && userAuth == true) {
-        String url =
-            "https://alanoliveira.pythonanywhere.com/bombausuario/${id.toString()}/";
-        var response =
-            await http.patch(Uri.parse(url), body: {"bomba": value.toString()});
+  //       id = data['id'];
+  //       userAuth = data['user'];
+  //     }
 
-        if (response.statusCode == 200) {
-          return true;
-        } else {
-          return false;
-        }
-      }
-      return false;
-    } catch (e) {
-      return false;
-    }
-  }
+  //     if (id == 1 && userAuth == true) {
+  //       String url =
+  //           "https://alanoliveira.pythonanywhere.com/bombausuario/${id.toString()}/";
+  //       var response =
+  //           await http.patch(Uri.parse(url), body: {"bomba": value.toString()});
 
-  Future<bool> setEstadoUser() async {
-    String urlGet = "https://alanoliveira.pythonanywhere.com/bombausuario/1/";
-    int id = 0;
-    bool userAuth = false;
-    bool value = true;
+  //       if (response.statusCode == 200) {
+  //         return true;
+  //       } else {
+  //         return false;
+  //       }
+  //     }
+  //     return false;
+  //   } catch (e) {
+  //     return false;
+  //   }
+  // }
 
-    try {
-      var responseGet = await http.get(Uri.parse(urlGet));
+  // Future<bool> setEstadoUser() async {
+  //   String urlGet = "https://alanoliveira.pythonanywhere.com/bombausuario/1/";
+  //   int id = 0;
+  //   bool userAuth = false;
+  //   bool value = true;
 
-      if (responseGet.statusCode == 200) {
-        final data = json.decode(responseGet.body);
-        id = data['id'];
-        userAuth = data['user'];
-      }
+  //   try {
+  //     var responseGet = await http.get(Uri.parse(urlGet));
 
-      if (id == 1) {
-        if (userAuth == true) {
-          value = false;
-        } else {
-          value = true;
-        }
+  //     if (responseGet.statusCode == 200) {
+  //       final data = json.decode(responseGet.body);
+  //       id = data['id'];
+  //       userAuth = data['user'];
+  //     }
 
-        String url =
-            "https://alanoliveira.pythonanywhere.com/bombausuario/${id.toString()}/";
-        var response =
-            await http.put(Uri.parse(url), body: {"user": value.toString()});
+  //     if (id == 1) {
+  //       if (userAuth == true) {
+  //         value = false;
+  //       } else {
+  //         value = true;
+  //       }
 
-        if (response.statusCode == 200) {
-          mensagem = value ? "User Autorizado" : "User Não Autorizado";
-          return true;
-        } else {
-          mensagem = "Erro ao mudar o estado do user";
-          return false;
-        }
-      }
-      mensagem = "Erro ao mudar o estado do user";
-      return false;
-    } catch (e) {
-      mensagem = "Erro ao mudar o estado do user";
-      return false;
-    }
-  }
+  //       String url =
+  //           "https://alanoliveira.pythonanywhere.com/bombausuario/${id.toString()}/";
+  //       var response =
+  //           await http.put(Uri.parse(url), body: {"user": value.toString()});
+
+  //       if (response.statusCode == 200) {
+  //         mensagem = value ? "User Autorizado" : "User Não Autorizado";
+  //         return true;
+  //       } else {
+  //         mensagem = "Erro ao mudar o estado do user";
+  //         return false;
+  //       }
+  //     }
+  //     mensagem = "Erro ao mudar o estado do user";
+  //     return false;
+  //   } catch (e) {
+  //     mensagem = "Erro ao mudar o estado do user";
+  //     return false;
+  //   }
+  // }
 }

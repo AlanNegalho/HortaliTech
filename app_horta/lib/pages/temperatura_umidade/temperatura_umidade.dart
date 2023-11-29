@@ -1,11 +1,10 @@
-import 'dart:async';
-import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 import 'package:percent_indicator/circular_percent_indicator.dart';
-import 'package:fl_chart/fl_chart.dart';
 import 'package:chart_sparkline/chart_sparkline.dart';
-import 'package:provider/provider.dart';
+import 'package:http/http.dart' as http;
+import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'dart:async';
+import 'dart:math';
 
 import 'detalhes_temp_umidade.dart';
 
@@ -251,8 +250,8 @@ class _TempHumidadeState extends State<TempHumidade> {
                           ),
                         ],
                       ),
-                      SizedBox(
-                        height: 20,
+                      const SizedBox(
+                        height: 25,
                       ),
                       Container(
                         padding: const EdgeInsets.only(top: 20.0),
@@ -278,16 +277,21 @@ class _TempHumidadeState extends State<TempHumidade> {
                             Sparkline(
                               data: horta
                                   .map((e) => double.parse(e['temperatura']))
-                                  .toList(),
+                                  .toList()
+                                  .sublist(0, min(50, horta.length)),
 
                               lineWidth: 2.0,
                               lineColor: Colors.red,
+                              //gridLineWidth: double.infinity,
+                              pointsMode: PointsMode.all,
+                              useCubicSmoothing: true,
+                              cubicSmoothingFactor: 0.2,
 
                               //lineColor: Colors.deepOrange,
                               //fillColor: Colors.deepOrange.withOpacity(0.5),
                               pointSize: 5.0,
 
-                              gridLinelabelPrefix: 'ºC',
+                              gridLinelabelPrefix: 'ºC ',
                               fallbackHeight: 150.0,
                               fallbackWidth: 300.0,
 
@@ -303,7 +307,7 @@ class _TempHumidadeState extends State<TempHumidade> {
                               // min: 5.0,
                             ),
                             const SizedBox(
-                              height: 60,
+                              height: 20,
                             ),
                             Column(
                               children: [
@@ -316,9 +320,11 @@ class _TempHumidadeState extends State<TempHumidade> {
                                 Sparkline(
                                   data: horta
                                       .map((e) => double.parse(e['umidade']))
-                                      .toList(),
+                                      .toList()
+                                      .sublist(0, min(50, horta.length)),
 
                                   lineWidth: 2.0,
+                                  pointsMode: PointsMode.all,
 
                                   //backgroundColor: Colors.red,
                                   //lineColor: Colors.lightGreen[500]!,
@@ -369,7 +375,17 @@ class _TempHumidadeState extends State<TempHumidade> {
                                 builder: (context) => ListTemp(horta: horta)),
                           );
                         },
-                        child: const Text('histórico'),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor:
+                              const Color.fromARGB(255, 3, 171, 255),
+                          minimumSize: const Size(200, 36),
+                          side: const BorderSide(
+                              color: Color(0xFF080606), width: 2.0),
+                        ),
+                        child: const Text(
+                          'histórico',
+                          style: TextStyle(color: Colors.white),
+                        ),
                       )
                     ],
                   ),
