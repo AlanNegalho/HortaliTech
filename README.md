@@ -22,7 +22,7 @@ Este repositório contém o código-fonte e a documentação para um sistema de 
 
 1. Clone este repositório:
    ```
-   git clone https://github.com/seu-usuario/nome-do-repositorio.git
+   git clone https://github.com/AlanNegalho/HortaliTech.git
    ```
 
 2. Siga as instruções no README de cada componente para configurar e executar o sistema.
