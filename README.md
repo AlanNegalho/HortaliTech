@@ -1,6 +1,6 @@
 # Sistema de Monitoramento e Controle de Irrigação
 
-Este repositório contém o código-fonte e a documentação para um sistema de monitoramento e controle de irrigação baseado em um Raspberry Pi. O sistema integra sensores de umidade do solo e um sensor digital de umidade e temperatura (DHT11) e valvula solenoide como atuador para fornecer dados em tempo real ao usuário através de um aplicativo mobile. Além disso, o sistema permite que o usuário controle a irrigação remotamente.
+Este repositório contém o código-fonte e a documentação para um sistema de monitoramento e controle de irrigação baseado em um Raspberry Pi. O sistema integra sensores de umidade do solo e um sensor digital de umidade e temperatura (DHT11) e valvula solenoide como atuador para fornecer dados em tempo real ao usuário através de um aplicativo mobile desenvolvido em Flutter. Além disso, o sistema permite que o usuário controle a irrigação remotamente.
 
 ## Componentes Principais
 
