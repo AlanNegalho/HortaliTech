@@ -49,164 +49,146 @@ class _ApiTempState extends State<ApiTemp> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('API'),
-      ),
-      body: Center(
-        child: Container(
-          height: 300,
-          color: Color.fromARGB(255, 233, 233, 228),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  CircularPercentIndicator(
-                    radius: 90.0,
-                    lineWidth: 12.0,
-                    animation: false,
-                    percent: double.parse(_temperature) / 100,
-                    center: Text(
-                      '$_temperature ºC',
-                      style: const TextStyle(fontSize: 15),
-                    ),
-                    footer: const Text(
-                      "Temperatura",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 15.0),
-                    ),
-                    circularStrokeCap: CircularStrokeCap.round,
-                    progressColor: Colors.deepOrange,
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Icon(
-                            Icons.thermostat_outlined,
-                            color: Colors.deepOrange,
-                            size: 30,
-                          ),
-                          Text(
-                            'Temperatura',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 15.0),
-                          ),
-                        ],
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 30.0),
-                        child: Text(
-                          '$_temperature ºC',
-                          style: const TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 15.0),
-                        ),
-                      ),
-                      const Row(
-                        children: [
-                          Icon(
-                            Icons.date_range_outlined,
-                            color: Colors.deepOrange,
-                            size: 30,
-                          ),
-                          Text(
-                            'Data/Hora',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 15.0),
-                          ),
-                        ],
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.only(left: 30.0),
-                        child: Text(
-                          "{} ",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 15.0),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              const SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  CircularPercentIndicator(
-                    radius: 90.0,
-                    lineWidth: 12.0,
-                    animation: false,
-                    percent: double.parse(_humidity) / 100,
-                    center: Text(
-                      '$_humidity %',
-                      style: const TextStyle(fontSize: 15),
-                    ),
-                    footer: const Text(
-                      "Umidade",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 15.0),
-                    ),
-                    circularStrokeCap: CircularStrokeCap.round,
-                    progressColor: const Color(0xFF22D6FF),
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Icon(
-                            Icons.water_drop_outlined,
-                            color: Color(0xFF22D6FF),
-                            size: 30,
-                          ),
-                          Text(
-                            'Umidade',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 15.0),
-                          ),
-                        ],
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 30.0),
-                        child: Text(
-                          "$_humidity %",
-                          style: const TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 15.0),
-                        ),
-                      ),
-                      const Row(
-                        children: [
-                          Icon(
-                            Icons.date_range_outlined,
-                            color: Color(0xFF22D6FF),
-                            size: 30,
-                          ),
-                          Text(
-                            'Data/Hora',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 15.0),
-                          ),
-                        ],
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.only(left: 30.0),
-                        child: Text(
-                          "{} ",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 15.0),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ],
+        iconTheme: const IconThemeData(color: Colors.black),
+        backgroundColor: const Color(0xFF09CD27),
+        title: const Text(
+          'Clima',
+          style: TextStyle(
+            color: Colors.black,
           ),
         ),
+        centerTitle: true,
+      ),
+      body: Column(
+        children: [
+          Image.asset('assets/app.png', width: 850, height: 220),
+          const Text('HORTALITECH',
+              style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w400,
+                  color: Colors.black)),
+          const SizedBox(
+            height: 40,
+          ),
+          const Text('Temperatura e Umidade em Corrente-PI',
+              style: TextStyle(
+                  fontWeight: FontWeight.w400,
+                  fontSize: 20,
+                  color: Colors.black)),
+          const SizedBox(
+            height: 20,
+          ),
+          Container(
+            height: 300,
+            color: const Color.fromARGB(255, 233, 233, 228),
+            child: Column(
+              children: [
+                const SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    CircularPercentIndicator(
+                      radius: 90.0,
+                      lineWidth: 12.0,
+                      animation: false,
+                      percent: double.parse(_temperature) / 100,
+                      center: Text(
+                        '$_temperature ºC',
+                        style: const TextStyle(fontSize: 15),
+                      ),
+                      footer: const Text(
+                        "Temperatura",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 15.0),
+                      ),
+                      circularStrokeCap: CircularStrokeCap.round,
+                      progressColor: Colors.deepOrange,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Icon(
+                              Icons.thermostat_outlined,
+                              color: Colors.deepOrange,
+                              size: 30,
+                            ),
+                            Text(
+                              'Temperatura',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 15.0),
+                            ),
+                          ],
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 30.0),
+                          child: Text(
+                            '$_temperature ºC',
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 15.0),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    CircularPercentIndicator(
+                      radius: 90.0,
+                      lineWidth: 12.0,
+                      animation: false,
+                      percent: double.parse(_humidity) / 100,
+                      center: Text(
+                        '$_humidity %',
+                        style: const TextStyle(fontSize: 15),
+                      ),
+                      footer: const Text(
+                        "Umidade",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 15.0),
+                      ),
+                      circularStrokeCap: CircularStrokeCap.round,
+                      progressColor: const Color(0xFF22D6FF),
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Icon(
+                              Icons.water_drop_outlined,
+                              color: Color(0xFF22D6FF),
+                              size: 30,
+                            ),
+                            Text(
+                              'Umidade',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 15.0),
+                            ),
+                          ],
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 30.0),
+                          child: Text(
+                            "$_humidity %",
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 15.0),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

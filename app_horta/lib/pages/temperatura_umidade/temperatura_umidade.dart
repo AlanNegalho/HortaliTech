@@ -251,7 +251,7 @@ class _TempHumidadeState extends State<TempHumidade> {
                         ],
                       ),
                       const SizedBox(
-                        height: 25,
+                        height: 15,
                       ),
                       Container(
                         padding: const EdgeInsets.only(top: 20.0),
@@ -274,40 +274,29 @@ class _TempHumidadeState extends State<TempHumidade> {
                               style: TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 15.0),
                             ),
+                            const SizedBox(
+                              height: 20,
+                            ),
                             Sparkline(
                               data: horta
                                   .map((e) => double.parse(e['temperatura']))
                                   .toList()
                                   .sublist(0, min(50, horta.length)),
-
                               lineWidth: 2.0,
                               lineColor: Colors.red,
-                              //gridLineWidth: double.infinity,
                               pointsMode: PointsMode.all,
                               useCubicSmoothing: true,
                               cubicSmoothingFactor: 0.2,
-
-                              //lineColor: Colors.deepOrange,
-                              //fillColor: Colors.deepOrange.withOpacity(0.5),
                               pointSize: 5.0,
-
                               gridLinelabelPrefix: 'ºC ',
                               fallbackHeight: 150.0,
                               fallbackWidth: 300.0,
-
                               gridLineAmount: 8,
-
                               enableGridLines: true,
-                              //averageLine: true,
-                              //averageLabel: true,
-
                               kLine: const ['max', 'min', 'first', 'last'],
-
-                              // max: 100.0,
-                              // min: 5.0,
                             ),
                             const SizedBox(
-                              height: 20,
+                              height: 25,
                             ),
                             Column(
                               children: [
@@ -317,46 +306,28 @@ class _TempHumidadeState extends State<TempHumidade> {
                                       fontWeight: FontWeight.bold,
                                       fontSize: 15.0),
                                 ),
+                                const SizedBox(
+                                  height: 20,
+                                ),
                                 Sparkline(
                                   data: horta
                                       .map((e) => double.parse(e['umidade']))
                                       .toList()
                                       .sublist(0, min(50, horta.length)),
-
                                   lineWidth: 2.0,
                                   pointsMode: PointsMode.all,
-
-                                  //backgroundColor: Colors.red,
-                                  //lineColor: Colors.lightGreen[500]!,
-                                  //fillMode: FillMode.none,
-                                  //fillColor: Colors.lightGreen[200]!,
                                   useCubicSmoothing: true,
                                   cubicSmoothingFactor: 0.2,
                                   pointSize: 5.0,
-
                                   gridLinelabelPrefix: '%',
                                   fallbackHeight: 150.0,
                                   fallbackWidth: 300.0,
-
                                   gridLineAmount: 8,
-
                                   enableGridLines: true,
-                                  //averageLine: true,
-                                  //averageLabel: true,
-
                                   kLine: const ['max', 'min', 'first', 'last'],
-                                  // max: 100.0,
-                                  //min: 10.0,
-
-                                  //enableThreshold: true,
-                                  // lineGradient: LinearGradient(
-                                  //   begin: Alignment.topCenter,
-                                  //   end: Alignment.bottomCenter,
-                                  //   colors: [
-                                  //     Colors.purple[800]!,
-                                  //     Colors.purple[200]!
-                                  //   ],
-                                  // ),
+                                ),
+                                const SizedBox(
+                                  height: 20,
                                 ),
                               ],
                             ),

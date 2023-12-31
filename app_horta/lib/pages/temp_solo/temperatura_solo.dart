@@ -230,42 +230,22 @@ class _TemperSoloState extends State<TemperSolo> {
                           margin: const EdgeInsets.only(left: 8.0, right: 10.0),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10.0),
-                            // color: Colors.white,
-                            // boxShadow: const [
-                            //   BoxShadow(
-                            //     color: Colors.black12,
-                            //     blurRadius: 5.0,
-                            //     offset: Offset(0, 5),
-                            //   ),
-                            // ],
                           ),
                           child: Sparkline(
                             data: horta
                                 .map((e) => double.parse(e['umidade']))
                                 .toList()
                                 .sublist(0, min(50, horta.length)),
-
                             lineWidth: 2.0,
                             pointsMode: PointsMode.all,
-
-                            //backgroundColor: Colors.red,
-                            //lineColor: Colors.lightGreen[500]!,
-                            //fillMode: FillMode.none,
-                            //fillColor: Colors.lightGreen[200]!,
                             useCubicSmoothing: true,
                             cubicSmoothingFactor: 0.2,
                             pointSize: 5.0,
-
                             gridLinelabelPrefix: '%',
                             fallbackHeight: 150.0,
                             fallbackWidth: 300.0,
-
                             gridLineAmount: 8,
-
                             enableGridLines: true,
-                            //averageLine: true,
-                            //averageLabel: true,
-
                             kLine: const ['max', 'min', 'first', 'last'],
                           ),
                         ),
@@ -448,80 +428,4 @@ class _TemperSoloState extends State<TemperSolo> {
             ),
     );
   }
-
-  // Future<bool> setEstadoBomba(bool value) async {
-  //   String urlGet = "https://alanoliveira.pythonanywhere.com/bombausuario/1/";
-  //   int id = 0;
-  //   bool userAuth = false;
-
-  //   try {
-  //     var responseGet = await http.get(Uri.parse(urlGet));
-
-  //     if (responseGet.statusCode == 200) {
-  //       final data = json.decode(responseGet.body);
-
-  //       id = data['id'];
-  //       userAuth = data['user'];
-  //     }
-
-  //     if (id == 1 && userAuth == true) {
-  //       String url =
-  //           "https://alanoliveira.pythonanywhere.com/bombausuario/${id.toString()}/";
-  //       var response =
-  //           await http.patch(Uri.parse(url), body: {"bomba": value.toString()});
-
-  //       if (response.statusCode == 200) {
-  //         return true;
-  //       } else {
-  //         return false;
-  //       }
-  //     }
-  //     return false;
-  //   } catch (e) {
-  //     return false;
-  //   }
-  // }
-
-  // Future<bool> setEstadoUser() async {
-  //   String urlGet = "https://alanoliveira.pythonanywhere.com/bombausuario/1/";
-  //   int id = 0;
-  //   bool userAuth = false;
-  //   bool value = true;
-
-  //   try {
-  //     var responseGet = await http.get(Uri.parse(urlGet));
-
-  //     if (responseGet.statusCode == 200) {
-  //       final data = json.decode(responseGet.body);
-  //       id = data['id'];
-  //       userAuth = data['user'];
-  //     }
-
-  //     if (id == 1) {
-  //       if (userAuth == true) {
-  //         value = false;
-  //       } else {
-  //         value = true;
-  //       }
-
-  //       String url =
-  //           "https://alanoliveira.pythonanywhere.com/bombausuario/${id.toString()}/";
-  //       var response =
-  //           await http.put(Uri.parse(url), body: {"user": value.toString()});
-
-  //       if (response.statusCode == 200) {
-  //         mensagem = value ? "User Autorizado" : "User Não Autorizado";
-  //         return true;
-  //       } else {
-  //         mensagem = "Erro ao mudar o estado do user";
-  //         return false;
-  //       }
-  //     }
-  //     mensagem = "Erro ao mudar o estado do user";
-  //     return false;
-  //   } catch (e) {
-  //     mensagem = "Erro ao mudar o estado do user";
-  //     return false;
-  //   }
-  // }
 }

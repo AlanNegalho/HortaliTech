@@ -22,8 +22,8 @@ class Sobre extends StatelessWidget {
           ),
         ),
         body: Container(
-          padding: EdgeInsets.all(20),
-          decoration: BoxDecoration(
+          padding: const EdgeInsets.all(20),
+          decoration: const BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topRight,
               end: Alignment.bottomLeft,
@@ -43,8 +43,8 @@ class Sobre extends StatelessWidget {
           ),
           child: Column(
             children: [
-              SizedBox(height: 50),
-              Row(
+              const SizedBox(height: 50),
+              const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
@@ -56,9 +56,9 @@ class Sobre extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: 100),
+              const SizedBox(height: 100),
               Container(
-                padding: EdgeInsets.all(20),
+                padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
                     color: const Color.fromARGB(255, 187, 188, 187),
                     borderRadius: BorderRadius.circular(20),
@@ -70,7 +70,7 @@ class Sobre extends StatelessWidget {
                         offset: const Offset(0, 3),
                       ),
                     ]),
-                child: Text(
+                child: const Text(
                   "Este aplicativo foi desenvolvido para auxiliar o produtor rural visualizar informações sobre as culturas cultivadas e controle de inrrigação, auxiliando  na tomada de decisão, com base em dados coletados por sensores instalados na Plantação.",
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   textAlign: TextAlign.justify,
