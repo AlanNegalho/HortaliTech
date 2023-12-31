@@ -33,4 +33,4 @@ Se você deseja contribuir para este projeto, por favor, siga as diretrizes de c
 
 ---
 
-Este projeto é uma solução robusta e eficiente para o monitoramento e controle de irrigação, oferecendo aos usuários uma maneira fácil e conveniente de gerenciar suas plantações e jardins.
+Este projeto é uma solução robusta e eficiente para o monitoramento e controle de irrigação, oferecendo aos usuários uma maneira fácil e conveniente de gerenciar suas plantações de hortaliçãs e jardins.
