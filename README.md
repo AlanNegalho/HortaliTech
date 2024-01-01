@@ -36,7 +36,7 @@ Este repositório contém o código-fonte e a documentação para um sistema de 
 
 ## Contribuições
 
-Se você deseja contribuir para este projeto, por favor, siga as diretrizes de contribuição especificadas neste repositório.
+
 
 ---
 
