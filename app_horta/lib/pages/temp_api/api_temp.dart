@@ -12,6 +12,7 @@ class ApiTemp extends StatefulWidget {
 }
 
 class _ApiTempState extends State<ApiTemp> {
+  final String _appId = 'Sua chave de API';
   String _temperature = '';
   String _humidity = '';
   late Timer _timer;
@@ -20,14 +21,16 @@ class _ApiTempState extends State<ApiTemp> {
   void initState() {
     super.initState();
     _getTemp(); // Chama a função ao iniciar a tela
-    _timer = Timer.periodic(Duration(minutes: 10), (Timer t) {
+    _timer = Timer.periodic(const Duration(minutes: 10), (Timer t) {
       _getTemp(); // Chama a função a cada 10 minutos
     });
   }
 
   Future<void> _getTemp() async {
-    final response = await http.get(Uri.parse(
-        'https://api.openweathermap.org/data/2.5/weather?q=corrente&appid=d8dfd3c0cfb76c415edc146e46f3586b&units=metric&lang=pt_br'));
+    // Use a variável para a chave appid ao construir a URL
+    final url = Uri.parse(
+        'https://api.openweathermap.org/data/2.5/weather?q=corrente&appid=$_appId&units=metric&lang=pt_br');
+    final response = await http.get(url);
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);

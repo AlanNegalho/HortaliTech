@@ -225,8 +225,6 @@ class _TemperSoloState extends State<TemperSolo> {
                           ],
                         ),
                         child: Container(
-                          //padding:
-                          // const EdgeInsets.only(top: 20.0, bottom: 20.0),
                           margin: const EdgeInsets.only(left: 8.0, right: 10.0),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10.0),
@@ -263,7 +261,8 @@ class _TemperSoloState extends State<TemperSolo> {
                       padding: const EdgeInsets.only(right: 10),
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Color.fromARGB(255, 91, 194, 7),
+                          backgroundColor:
+                              const Color.fromARGB(255, 91, 194, 7),
                           minimumSize: const Size(150, 36),
                           side: const BorderSide(
                               color: Color(0xFF080606), width: 2.0),
@@ -302,7 +301,7 @@ class _TemperSoloState extends State<TemperSolo> {
                     ),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Color.fromARGB(255, 203, 5, 5),
+                        backgroundColor: const Color.fromARGB(255, 203, 5, 5),
                         minimumSize: const Size(150, 36),
                         side: const BorderSide(
                             color: Color(0xFF080606), width: 2.0),

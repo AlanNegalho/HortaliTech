@@ -12,6 +12,7 @@ class TempHumidade extends StatefulWidget {
   const TempHumidade({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _TempHumidadeState createState() => _TempHumidadeState();
 }
 

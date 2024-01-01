@@ -1,6 +1,4 @@
 import 'dart:math';
-
-import 'package:app_horta/pages/temp_api/api_temp.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -175,11 +173,12 @@ class _FirstScreenState extends State<FirstScreen> {
                 onPressed: () {
                   Navigator.pushNamed(context, '/api_temp');
                 },
-                icon: const Icon(Icons.filter_drama_sharp,
-                    size: 50,
-                    color: Colors.blueAccent,
-                    semanticLabel: 'Text to announce in accessibility modes'),
-              ),
+                icon: const Icon(
+                  Icons.filter_drama_sharp,
+                  size: 50,
+                  color: Colors.blueAccent,
+                ),
+              )
             ],
           ),
           const Text(
@@ -194,7 +193,7 @@ class _FirstScreenState extends State<FirstScreen> {
                   fontWeight: FontWeight.w400,
                   color: Colors.black)),
           const SizedBox(
-            height: 40,
+            height: 50,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,

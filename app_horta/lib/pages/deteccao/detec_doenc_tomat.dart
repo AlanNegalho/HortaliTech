@@ -35,7 +35,7 @@ class _CameraDetectState extends State<CameraDetect> {
       return;
     }
 
-    String apiToken = "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";
+    String apiToken = "Seu token aqui";
     String apiUrl =
         "https://api-inference.huggingface.co/models/surprisedPikachu007/tomato-disease-detection";
 
@@ -209,7 +209,7 @@ class _CameraDetectState extends State<CameraDetect> {
                     ),
                   ),
                 ),
-                title: Text(
+                title: const Text(
                   'Remover',
                 ),
                 onTap: () {
