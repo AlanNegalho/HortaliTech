@@ -1,16 +1,14 @@
-# app_horta
+# HortaliTech
 
-A new Flutter project.
+### Instalação de Dependências
 
-## Getting Started
+Instale todas as dependências necessárias para o funcionamento adequado do aplicativo.
 
-This project is a starting point for a Flutter application.
+### Chaves e Tokens
 
-A few resources to get you started if this is your first Flutter project:
+1. **Chave de Acesso ao Clima da Cidade**: É necessário obter uma chave (key)no seguinte link  https://openweathermap.org/api  para acessar os dados de temperatura da cidade. Esta chave será utilizada para integrar o aplicativo com a fonte de dados meteorológicos e fornecer informações precisas sobre as condições climáticas.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+2. **Token de Acesso ao Diagnóstico de Doenças do Tomateiro**: Será preciso um token de acesso pode ser obtido criando uma conta no seguinte link https://huggingface.co/ para utilizar o recurso de diagnóstico de doenças do tomateiro através do detector de doenças integrado ao aplicativo.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+
+Certifique-se de fornecer a chave e o token corretamente no aplicativo.
