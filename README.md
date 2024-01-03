@@ -4,13 +4,20 @@ Este repositório contém o código-fonte e a documentação para um sistema de 
 
 ## Componentes Principais
 
+## Componentes Principais
+
 1. **Aplicativo Mobile**: O usuário pode acessar dados relacionados à temperatura e umidade do ambiente, bem como à umidade do solo, através deste aplicativo. Além disso, o usuário tem a capacidade de controlar a irrigação remotamente.
 
-2. **API (Application Programming Interface)**: Responsável por gerenciar os dados do sistema e transmitir comandos realizados pelo usuário através do aplicativo. A API é o ponto central para a comunicação entre o aplicativo e o sistema embarcado.
+   <img src="https://github.com/AlanNegalho/HortaliTech/assets/107214420/93f43f58-d7cc-4a81-b5e9-225cc8082c5b" alt="Captura de tela de 2024-01-01 20-09-29" width="300" align="center">
 
-3. **Raspberry Pi**: Atua no gerenciamento dos componentes e sensores. Recebe dados do sensor de umidade do solo e do sensor DHT11. Além disso, controla um relé que ativa a válvula solenóide com base nas condições do solo e nos comandos recebidos do aplicativo.
+3. **API (Application Programming Interface)**: Responsável por gerenciar os dados do sistema e transmitir comandos realizados pelo usuário através do aplicativo. A API é o ponto central para a comunicação entre o aplicativo e o sistema embarcado.
 
-4. 
+   <img src="https://github.com/AlanNegalho/HortaliTech/assets/107214420/7fbcb26b-90e5-450c-be8a-ea72d7c5da86" alt="Captura de tela de 2024-01-01 20-26-02" width="500" height="300">
+
+5. **Microcontrolador/Pc Raspberry Pi**: Atua no gerenciamento dos componentes e sensores. Recebe dados do sensor de umidade do solo e do sensor DHT11. Além disso, controla um relé que ativa a válvula solenóide com base nas condições do solo e nos comandos recebidos do aplicativo.
+
+   <img src="https://github.com/AlanNegalho/HortaliTech/assets/107214420/e68bf014-374d-433b-8c02-8f82da0cc9f6" alt="Captura de tela de 2024-01-01 20-31-33" width="500" height="300">
+
 ## Funcionalidades
 
 - Monitoramento em tempo real da temperatura e umidade do ambiente.
@@ -29,7 +36,7 @@ Este repositório contém o código-fonte e a documentação para um sistema de 
 
 ## Contribuições
 
-Se você deseja contribuir para este projeto, por favor, siga as diretrizes de contribuição especificadas neste repositório.
+
 
 ---
 
