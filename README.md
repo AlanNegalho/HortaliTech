@@ -10,7 +10,7 @@ Este repositório contém o código-fonte e a documentação para um sistema de 
 
    <img src="https://github.com/AlanNegalho/HortaliTech/assets/107214420/93f43f58-d7cc-4a81-b5e9-225cc8082c5b" alt="Captura de tela de 2024-01-01 20-09-29" width="300" align="center">
 
-3. **API (Application Programming Interface)**: Responsável por gerenciar os dados do sistema e transmitir comandos realizados pelo usuário através do aplicativo. A API é o ponto central para a comunicação entre o aplicativo e o sistema embarcado.
+3. **API (Application Programming Interface)**: Responsável por gerenciar os dados do sistema e transmitir comandos realizados pelo usuário através do aplicativo. A API é o ponto central para a comunicação entre o aplicativo e o Microcontrolador/PC.
 
    <img src="https://github.com/AlanNegalho/HortaliTech/assets/107214420/7fbcb26b-90e5-450c-be8a-ea72d7c5da86" alt="Captura de tela de 2024-01-01 20-26-02" width="500" height="300">
 
