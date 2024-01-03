@@ -34,7 +34,7 @@ A API possui os seguintes endpoints para acessar diferentes funcionalidades:
 
 - **/dadoshorta**: Endpoint para obter dados relacionados à horta.
 - **/humidadesolo**: Endpoint para acessar informações sobre a umidade do solo.
-- **/bombausuario**: Endpoint para gerenciar a bomba de água do usuário.
+- **/bombausuario**: Endpoint para gerenciamento da bomba de água pelo usuário.
 
 ## Exportação de Dados para Arquivo .xlsx
 
