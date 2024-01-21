@@ -37,7 +37,7 @@ class _HomePageState extends State<HomePage> {
                           radius: 50.0,
                           backgroundImage: AssetImage('assets/app.png')),
                       SizedBox(
-                        height: 10,
+                        height: 5,
                       ),
                       Text(
                         "HORTALITECH",

@@ -18,7 +18,7 @@ class TemperSolo extends StatefulWidget {
 }
 
 class _TemperSoloState extends State<TemperSolo> {
-  bool _isLoading = true;
+  bool _isLoading = true; // Variável para carregar o progresso
   List<Map<String, dynamic>> horta = [];
 
   String mensagem = "";
@@ -91,7 +91,7 @@ class _TemperSoloState extends State<TemperSolo> {
           ),
         ],
       ),
-      body: _isLoading
+      body: _isLoading // Se não estiver carregando, exiba o progresso
           ? Container(
               decoration: const BoxDecoration(),
               alignment: Alignment.center,

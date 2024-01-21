@@ -2,26 +2,24 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 
-String mensagem = "";
+String mensagem = ""; // Variável para armazenar a mensagem de erro
 
 Future<bool> setEstadoBomba(bool value) async {
-  String urlGet = "https://alanoliveira.pythonanywhere.com/bombausuario/1/";
+  String urlGet = "https://alanoliveira.pythonanywhere.com/bombausuario/1/"; // URL para pegar o estado da bomba
   int id = 0;
-  bool userAuth = false;
+  bool userAuth = false; // Variável para verificar se o user está autorizado
 
   try {
     var responseGet = await http.get(Uri.parse(urlGet));
-
     if (responseGet.statusCode == 200) {
       final data = json.decode(responseGet.body);
-
       id = data['id'];
       userAuth = data['user'];
     }
 
     if (id == 1 && userAuth == true) {
       String url =
-          "https://alanoliveira.pythonanywhere.com/bombausuario/${id.toString()}/";
+          "https://alanoliveira.pythonanywhere.com/bombausuario/${id.toString()}/"; // URL para setar o estado da bomba
       var response =
           await http.patch(Uri.parse(url), body: {"bomba": value.toString()});
 
@@ -38,7 +36,7 @@ Future<bool> setEstadoBomba(bool value) async {
 }
 
 Future<bool> setEstadoUser() async {
-  String urlGet = "https://alanoliveira.pythonanywhere.com/bombausuario/1/";
+  String urlGet = "https://alanoliveira.pythonanywhere.com/bombausuario/1/"; // URL para pegar o estado do user
   int id = 0;
   bool userAuth = false;
   bool value = true;
@@ -60,7 +58,7 @@ Future<bool> setEstadoUser() async {
       }
 
       String url =
-          "https://alanoliveira.pythonanywhere.com/bombausuario/${id.toString()}/";
+          "https://alanoliveira.pythonanywhere.com/bombausuario/${id.toString()}/"; // URL para setar o estado do user
       var response =
           await http.put(Uri.parse(url), body: {"user": value.toString()});
 
@@ -85,7 +83,7 @@ String getMensagem() {
 }
 
 Future<bool> getEstadoBomba() async {
-  String url = "https://alanoliveira.pythonanywhere.com/bombausuario/1/";
+  String url = "https://alanoliveira.pythonanywhere.com/bombausuario/1/"; // URL para pegar o estado da bomba
   int id = 0;
   bool value = false;
 

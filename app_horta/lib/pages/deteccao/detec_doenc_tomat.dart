@@ -37,7 +37,7 @@ class _CameraDetectState extends State<CameraDetect> {
 
     String apiToken = "Seu token aqui";
     String apiUrl =
-        "https://api-inference.huggingface.co/models/surprisedPikachu007/tomato-disease-detection";
+        "https://api-inference.huggingface.co/models/surprisedPikachu007/tomato-disease-detection"; // URL da API
 
     // Read the image file into bytes
     var bytes = await image.readAsBytes();
